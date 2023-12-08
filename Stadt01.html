@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>Sehenswürdigkeiten</title>
+</head>
+<body>
+  <h1>Sehenswürdigkeiten</h1>
+  <form action="/" method="post">
+    <input type="text" name="stadt" placeholder="Stadt eingeben">
+    <input type="submit" value="Suchen">
+  </form>
+  <?php
+    if ($_POST['stadt']) {
+      $stadt = $_POST['stadt'];
+      $url = "https://de.wikipedia.org/wiki/$stadt";
+      $html = file_get_contents($url);
+      $dom = new DOMDocument();
+      $dom->loadHTML($html);
+      $bilder = $dom->getElementsByTagName('img');
+      $sehenswuerdigkeiten = $dom->getElementsByTagName('p');
+      echo "<ul>";
+      foreach ($sehenswuerdigkeiten as $sehenswuerdigkeit) {
+        echo "<li>";
+        echo "<a href=\"$sehenswuerdigkeit->textContent\">";
+        echo "<img src=\"" . $bilder[0]->getAttribute('src') . "\" alt=\"$sehenswuerdigkeit->textContent\"></a>";
+        echo "<span>" . $sehenswuerdigkeit->textContent . "</span>";
+        echo "</li>";
+      }
+      echo "</ul>";
+      echo "<iframe src=\"https://www.google.com/maps/embed/v1/place?q=$stadt&key=YOUR_API_KEY\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0;\" allowfullscreen=\"allowfullscreen\"></iframe>";
+    }
+  ?>
+</body>
+</html>
