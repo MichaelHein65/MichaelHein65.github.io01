@@ -144,15 +144,40 @@ class TicTacToe:
 
     def check_game_end(self):
         winner = self.check_winner(self.board)
-        if winner:
-            messagebox.showinfo("Spiel beendet", f"{winner} hat gewonnen!")
-            self.reset_game()
+        if winner == self.player_symbol:
+            self.show_result('win')
+            return True
+        elif winner == self.computer_symbol:
+            self.show_result('lose')
             return True
         elif '' not in self.board:
-            messagebox.showinfo("Spiel beendet", "Unentschieden!")
-            self.reset_game()
+            self.show_result('tie')
             return True
         return False
+
+    def show_result(self, result):
+        for btn in self.buttons:
+            btn.config(state="disabled")
+
+        if result == 'win':
+            msg = "Du hast gewonnen! \U0001F389"
+            color = "lightgreen"
+        elif result == 'lose':
+            msg = "Leider verloren... \U0001F622"
+            color = "lightblue"
+        else:
+            msg = "Unentschieden! \U0001F91D"
+            color = "orange"
+
+        result_win = tk.Toplevel(self.root)
+        result_win.title("Spiel beendet")
+        result_win.configure(bg=color)
+        tk.Label(result_win, text=msg, font=("Comic Sans MS", 24, "bold"),
+                 bg=color).pack(padx=30, pady=20)
+        tk.Button(result_win, text="OK", font=("Comic Sans MS", 14, "bold"),
+                  command=lambda: [result_win.destroy(), self.reset_game()]).pack(pady=10)
+        result_win.transient(self.root)
+        result_win.grab_set()
 
     def reset_game(self):
         if self.board_frame is not None:
