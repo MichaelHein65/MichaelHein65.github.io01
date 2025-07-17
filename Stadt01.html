@@ -21,8 +21,11 @@
       echo "<ul>";
       foreach ($sehenswuerdigkeiten as $sehenswuerdigkeit) {
         echo "<li>";
-        echo "<a href=\"$sehenswuerdigkeit->textContent\">";
-        echo "<img src=\"" . $bilder[0]->getAttribute('src') . "\" alt=\"$sehenswuerdigkeit->textContent\"></a>";
+        echo "<a href=\"{$sehenswuerdigkeit->textContent}\">";
+        $bild = $bilder->item(0);
+        if ($bild) {
+          echo "<img src=\"" . $bild->getAttribute('src') . "\" alt=\"{$sehenswuerdigkeit->textContent}\"></a>";
+        }
         echo "<span>" . $sehenswuerdigkeit->textContent . "</span>";
         echo "</li>";
       }

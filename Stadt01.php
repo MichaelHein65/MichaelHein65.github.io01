@@ -1,3 +1,4 @@
+<?php
 function getSehenswuerdigkeiten($stadt) {
   $url = "https://de.wikipedia.org/wiki/$stadt";
   $html = file_get_contents($url);
@@ -10,3 +11,4 @@ function getSehenswuerdigkeiten($stadt) {
   }, $sehenswuerdigkeiten);
   return $sehenswuerdigkeiten;
 }
+?>
