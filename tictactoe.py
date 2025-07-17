@@ -158,6 +158,9 @@ class TicTacToe:
         if self.board_frame is not None:
             self.board_frame.destroy()
             self.board_frame = None
+        # Shrink the window back to its natural size before showing the
+        # difficulty selection again so it doesn't grow each round
+        self.root.geometry("")
         for btn in self.buttons:
             btn.destroy()
         self.buttons = []
