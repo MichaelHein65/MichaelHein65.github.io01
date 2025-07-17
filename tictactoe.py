@@ -14,6 +14,7 @@ class TicTacToe:
         self.buttons = []
         self.board = ['' for _ in range(9)]
         self.difficulty = None
+        self.board_frame = None
         self.create_start_screen()
 
     def create_start_screen(self):
@@ -38,10 +39,10 @@ class TicTacToe:
         self.build_board()
 
     def build_board(self):
-        board_frame = tk.Frame(self.root, bg="skyblue")
-        board_frame.pack(expand=True)
+        self.board_frame = tk.Frame(self.root, bg="skyblue")
+        self.board_frame.pack(expand=True)
         for i in range(9):
-            btn = tk.Button(board_frame, text="", font=("Comic Sans MS", 36, "bold"), width=3, height=1,
+            btn = tk.Button(self.board_frame, text="", font=("Comic Sans MS", 36, "bold"), width=3, height=1,
                              command=lambda idx=i: self.player_move(idx), bg="lightyellow")
             btn.grid(row=i//3, column=i%3, padx=5, pady=5)
             self.buttons.append(btn)
@@ -154,6 +155,9 @@ class TicTacToe:
         return False
 
     def reset_game(self):
+        if self.board_frame is not None:
+            self.board_frame.destroy()
+            self.board_frame = None
         for btn in self.buttons:
             btn.destroy()
         self.buttons = []
